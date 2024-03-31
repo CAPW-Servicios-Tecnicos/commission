@@ -4,7 +4,7 @@
     <record id="invoice_line_agent_tree" model="ir.ui.view">
         <field name="model">account.invoice.line.agent</field>
         <field name="arch" type="xml">
-            <tree string="Invoice line agents and commissions" editable="bottom">
+            <tree editable="bottom">
                 <field name="agent_id" context="{'default_agent': True}" />
                 <field name="commission_id" />
                 <field name="amount" />
@@ -70,9 +70,10 @@
                     name="recompute_lines_agents"
                     type="object"
                     string="Regenerate agents"
-                    states="draft"
                     attrs="{'invisible': [
-                        ('move_type', 'not in', ['out_invoice', 'out_refund'])
+                        '|',
+                        ('move_type', 'not in', ['out_invoice', 'out_refund']),
+                        ('state', '!=', 'draft')
                     ]}"
                 />
             </xpath>

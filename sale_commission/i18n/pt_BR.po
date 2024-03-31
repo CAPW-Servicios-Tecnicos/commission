@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-22 08:15+0000\n"
-"PO-Revision-Date: 2020-02-25 09:13+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"PO-Revision-Date: 2023-06-10 21:09+0000\n"
+"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/oca/"
 "teams/23907/pt_BR/)\n"
 "Language: pt_BR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.17\n"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_analysis_report__quantity
@@ -100,14 +100,13 @@ msgstr "Parceiros Representantes"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_invoice_line_agent
-#, fuzzy
 msgid "Agent detail of commission line in invoice lines"
-msgstr "Representantes/Comissões relacionados à linha da fatura."
+msgstr "Detalhe do representante da linha de comissão nas linhas da fatura"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_order_line_agent
 msgid "Agent detail of commission line in order lines"
-msgstr ""
+msgstr "Detalhes do representante da linha de comissão nas linhas do pedido"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_partner_form_agent
@@ -125,7 +124,6 @@ msgstr "Informações do Representante"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order__partner_agent_ids
 #: model:ir.ui.menu,name:sale_commission.menu_agent_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.res_partner_view_search
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_order_line_tree
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 #, python-format
 msgid "Agents"
@@ -167,9 +165,8 @@ msgstr "Qualquer Liquidado"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_analysis_report__balance
-#, fuzzy
 msgid "Balance"
-msgstr "Cancelar"
+msgstr "Saldo"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission__amount_base_type
@@ -179,7 +176,7 @@ msgstr "base"
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__res_partner__settlement__biweekly
 msgid "Bi-weekly"
-msgstr ""
+msgstr "Bi-semanal"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__commission_type__section
@@ -243,7 +240,6 @@ msgstr "Comissão"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_account_invoice_line_agent__amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_line_mixin__amount
-#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement_line__settled_amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order_line_agent__amount
 msgid "Commission Amount"
 msgstr "Total de Comissão"
@@ -280,7 +276,6 @@ msgstr "Tipos de comissão"
 #: model:ir.model.fields,field_description:sale_commission.field_account_move__commission_total
 #: model:ir.model.fields,field_description:sale_commission.field_account_payment__commission_total
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order__commission_total
-#: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_tree
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_move_line_form
 msgid "Commissions"
 msgstr "Commissões"
@@ -451,6 +446,20 @@ msgid "Fixed percentage"
 msgstr "Porcentagem fixa"
 
 #. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission_make_settle__date_to
+msgid ""
+"For invoice-based commissions, settlements will be created for "
+"invoices             with date up to the one set in this field."
+msgstr ""
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission_make_settle__date_payment_to
+msgid ""
+"For payment-based commissions, settlements will be created for "
+"payments             with date up to the one set in this field."
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_product_product__commission_free
 #: model:ir.model.fields,field_description:sale_commission.field_product_template__commission_free
 msgid "Free of commission"
@@ -478,11 +487,6 @@ msgid "Generated invoice"
 msgstr "Fatura criada"
 
 #. module: sale_commission
-#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__gross_amount
-msgid "Gross Amount"
-msgstr "Montante bruto"
-
-#. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_line_search
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_search
@@ -492,7 +496,7 @@ msgstr "Agrupar Por"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_invoice__grouped
 msgid "Group invoices"
-msgstr ""
+msgstr "Grupo de Faturas"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_account_invoice_line_agent__id
@@ -546,6 +550,11 @@ msgid "Invoice date"
 msgstr "Data da Fatura"
 
 #. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_to
+msgid "Invoice date up to"
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_settlement__state__except_invoice
 msgid "Invoice exception"
 msgstr "Exceção da faturamento"
@@ -555,11 +564,6 @@ msgstr "Exceção da faturamento"
 #: model_terms:ir.ui.view,arch_db:sale_commission.report_settlement
 msgid "Invoice line"
 msgstr "Linha de Fatura"
-
-#. module: sale_commission
-#: model_terms:ir.ui.view,arch_db:sale_commission.invoice_line_agent_tree
-msgid "Invoice line agents and commissions"
-msgstr "Representantes e comissões na linha da fatura"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_settlement__state__invoiced
@@ -575,13 +579,12 @@ msgstr "Diário"
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Lançamento Diário"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_move_line
-#, fuzzy
 msgid "Journal Item"
-msgstr "Diário"
+msgstr "Item Diário"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_account_invoice_line_agent____last_update
@@ -651,6 +654,11 @@ msgid "Make settlements"
 msgstr "Fazer abatimentos"
 
 #. module: sale_commission
+#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__net_amount
+msgid "Margin (Amount - Cost)"
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_mixin
 msgid "Mixin model for applying to any object that wants to handle commissions"
 msgstr ""
@@ -675,11 +683,6 @@ msgstr "Mensalmente"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__name
 msgid "Name"
 msgstr "Nome"
-
-#. module: sale_commission
-#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__net_amount
-msgid "Net Amount"
-msgstr "Montante líquido"
 
 #. module: sale_commission
 #: code:addons/sale_commission/models/sale_commission_mixin.py:0
@@ -708,6 +711,11 @@ msgstr "Parceiro"
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__invoice_state__paid
 msgid "Payment Based"
 msgstr "Baseado no pagamento"
+
+#. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_payment_to
+msgid "Payment date up to"
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_section__percent
@@ -766,9 +774,8 @@ msgstr "Definição das Taxas"
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_move_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_order_agent_form_inherit
-#, fuzzy
 msgid "Regenerate agents"
-msgstr "Recalcular representantes nas linhas"
+msgstr "Regenerar representantes"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_graph
@@ -785,6 +792,11 @@ msgstr "Relatório de Análise de Comissão de Venda"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_analysis_report__commission_id
 msgid "Sale commission"
 msgstr "Comissão de venda"
+
+#. module: sale_commission
+#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__gross_amount
+msgid "Sale/Invoice Amount"
+msgstr ""
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
@@ -809,14 +821,41 @@ msgstr "Salvar"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission__section_ids
-#: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_form
 msgid "Sections"
 msgstr "Seções"
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__amount_base_type
+msgid ""
+"Select the base amount for computing the percentage:\n"
+"* 'Sale/Invoice Amount': percentage is computed from the amount put on sales "
+"order/invoice.\n"
+"* 'Margin (Amount - Cost)': percentage is computed from the profit only, "
+"taken the cost from the product."
+msgstr ""
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 msgid "Select the date up to which you want to make the settlements:"
 msgstr "Selecione a data até a qual deseja realizar os abatimentos:"
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__invoice_state
+msgid ""
+"Select the invoice status for settling the commissions:\n"
+"* 'Invoice Based': Commissions are settled when the invoice is issued.\n"
+"* 'Payment Based': Commissions are settled when the invoice is paid."
+msgstr ""
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__commission_type
+msgid ""
+"Select the percentage type of the commission:\n"
+"* 'Fixed percentage': all commissions are computed with a fixed percentage. "
+"You can fill the percentage in the field \"Fixed percentage\".\n"
+"* 'By sections': percentage varies depending amount intervals. You can fill "
+"intervals and percentages in the section \"Rate definition\"."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__res_partner__settlement__semi
@@ -837,6 +876,11 @@ msgstr "Abater comissões"
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
 msgid "Settled"
 msgstr "Liquidado"
+
+#. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement_line__settled_amount
+msgid "Settled Amount"
+msgstr ""
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_partner_form_agent
@@ -863,8 +907,6 @@ msgstr "Análise de abatimentos"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__line_ids
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_form
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_line_tree
 msgid "Settlement lines"
 msgstr "Linhas de abatimento"
 
@@ -899,15 +941,13 @@ msgstr ""
 #: model:ir.ui.menu,name:sale_commission.menu_settle_commissions
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_make_invoice_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_partner_form_agent
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_tree
 msgid "Settlements"
 msgstr "Abatimentos"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement_line__invoice_line_id
-#, fuzzy
 msgid "Source invoice line"
-msgstr "Linha de Fatura"
+msgstr "Origem Linha da Fatura"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__state
@@ -928,7 +968,7 @@ msgstr "O limite inferior não pode ser maior do que o superior."
 #. module: sale_commission
 #: model:ir.model.fields,help:sale_commission.field_account_invoice_line_agent__invoice_id
 msgid "The move of this entry line."
-msgstr ""
+msgstr "O movimento para esta linha de entrada."
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
@@ -990,11 +1030,6 @@ msgid "Unit of Measure"
 msgstr "Unidade de Medida"
 
 #. module: sale_commission
-#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_to
-msgid "Up to"
-msgstr "Até"
-
-#. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_make_invoice
 msgid "Wizard for making an invoice from a settlement"
 msgstr "Assistente para fazer uma fatura de um acordo"
@@ -1015,7 +1050,7 @@ msgstr "Você só pode adicionar um representante de cada vez."
 #: code:addons/sale_commission/models/account_move.py:0
 #, python-format
 msgid "You can't cancel an invoice with settled lines"
-msgstr ""
+msgstr "Você não pode cancelar uma fatura com linhas liquidadas"
 
 #. module: sale_commission
 #: code:addons/sale_commission/models/settlement.py:0
@@ -1039,6 +1074,18 @@ msgstr "_Cancelar"
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 msgid "or"
 msgstr "ou"
+
+#~ msgid "Gross Amount"
+#~ msgstr "Montante bruto"
+
+#~ msgid "Net Amount"
+#~ msgstr "Montante líquido"
+
+#~ msgid "Invoice line agents and commissions"
+#~ msgstr "Representantes e comissões na linha da fatura"
+
+#~ msgid "Up to"
+#~ msgstr "Até"
 
 #, fuzzy
 #~ msgid "Journal Entries"

@@ -120,7 +120,6 @@ msgstr "Información del agente"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order__partner_agent_ids
 #: model:ir.ui.menu,name:sale_commission.menu_agent_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.res_partner_view_search
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_order_line_tree
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 #, python-format
 msgid "Agents"
@@ -237,7 +236,6 @@ msgstr "Comisión"
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_account_invoice_line_agent__amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_line_mixin__amount
-#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement_line__settled_amount
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order_line_agent__amount
 msgid "Commission Amount"
 msgstr "Importe de comisión"
@@ -274,7 +272,6 @@ msgstr "Tipos de comisión"
 #: model:ir.model.fields,field_description:sale_commission.field_account_move__commission_total
 #: model:ir.model.fields,field_description:sale_commission.field_account_payment__commission_total
 #: model:ir.model.fields,field_description:sale_commission.field_sale_order__commission_total
-#: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_tree
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_move_line_form
 msgid "Commissions"
 msgstr "Comisiones"
@@ -445,6 +442,20 @@ msgid "Fixed percentage"
 msgstr "Porcentaje fijo"
 
 #. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission_make_settle__date_to
+msgid ""
+"For invoice-based commissions, settlements will be created for "
+"invoices             with date up to the one set in this field."
+msgstr ""
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission_make_settle__date_payment_to
+msgid ""
+"For payment-based commissions, settlements will be created for "
+"payments             with date up to the one set in this field."
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_product_product__commission_free
 #: model:ir.model.fields,field_description:sale_commission.field_product_template__commission_free
 msgid "Free of commission"
@@ -470,11 +481,6 @@ msgstr "Información general"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__invoice_line_ids
 msgid "Generated invoice"
 msgstr "Factura generada"
-
-#. module: sale_commission
-#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__gross_amount
-msgid "Gross Amount"
-msgstr "Importe Bruto"
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
@@ -540,6 +546,11 @@ msgid "Invoice date"
 msgstr "Fecha de factura"
 
 #. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_to
+msgid "Invoice date up to"
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_settlement__state__except_invoice
 msgid "Invoice exception"
 msgstr "Excepción de factura"
@@ -549,11 +560,6 @@ msgstr "Excepción de factura"
 #: model_terms:ir.ui.view,arch_db:sale_commission.report_settlement
 msgid "Invoice line"
 msgstr "Línea de factura"
-
-#. module: sale_commission
-#: model_terms:ir.ui.view,arch_db:sale_commission.invoice_line_agent_tree
-msgid "Invoice line agents and commissions"
-msgstr "Agentes y comisiones de línea de factura"
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission_settlement__state__invoiced
@@ -644,6 +650,11 @@ msgid "Make settlements"
 msgstr "Realizar liquidaciones"
 
 #. module: sale_commission
+#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__net_amount
+msgid "Margin (Amount - Cost)"
+msgstr ""
+
+#. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_mixin
 msgid "Mixin model for applying to any object that wants to handle commissions"
 msgstr ""
@@ -668,11 +679,6 @@ msgstr "Mensual"
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__name
 msgid "Name"
 msgstr "Nombre"
-
-#. module: sale_commission
-#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__net_amount
-msgid "Net Amount"
-msgstr "Importe Neto"
 
 #. module: sale_commission
 #: code:addons/sale_commission/models/sale_commission_mixin.py:0
@@ -701,6 +707,11 @@ msgstr "Socio"
 #: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__invoice_state__paid
 msgid "Payment Based"
 msgstr "Basada en pagos"
+
+#. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_payment_to
+msgid "Payment date up to"
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_section__percent
@@ -779,6 +790,11 @@ msgid "Sale commission"
 msgstr "Comisión de venta"
 
 #. module: sale_commission
+#: model:ir.model.fields.selection,name:sale_commission.selection__sale_commission__amount_base_type__gross_amount
+msgid "Sale/Invoice Amount"
+msgstr ""
+
+#. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
 msgid "Sales Commission Analysis"
 msgstr "Análisis de comisión de venta"
@@ -800,14 +816,41 @@ msgstr "Guardar"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission__section_ids
-#: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_form
 msgid "Sections"
 msgstr "Secciones"
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__amount_base_type
+msgid ""
+"Select the base amount for computing the percentage:\n"
+"* 'Sale/Invoice Amount': percentage is computed from the amount put on sales "
+"order/invoice.\n"
+"* 'Margin (Amount - Cost)': percentage is computed from the profit only, "
+"taken the cost from the product."
+msgstr ""
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 msgid "Select the date up to which you want to make the settlements:"
 msgstr "Seleccione la fecha hasta la que quiere realizar las liquidaciones:"
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__invoice_state
+msgid ""
+"Select the invoice status for settling the commissions:\n"
+"* 'Invoice Based': Commissions are settled when the invoice is issued.\n"
+"* 'Payment Based': Commissions are settled when the invoice is paid."
+msgstr ""
+
+#. module: sale_commission
+#: model:ir.model.fields,help:sale_commission.field_sale_commission__commission_type
+msgid ""
+"Select the percentage type of the commission:\n"
+"* 'Fixed percentage': all commissions are computed with a fixed percentage. "
+"You can fill the percentage in the field \"Fixed percentage\".\n"
+"* 'By sections': percentage varies depending amount intervals. You can fill "
+"intervals and percentages in the section \"Rate definition\"."
+msgstr ""
 
 #. module: sale_commission
 #: model:ir.model.fields.selection,name:sale_commission.selection__res_partner__settlement__semi
@@ -828,6 +871,11 @@ msgstr "Comisiones de liquidaciones"
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_sale_commission_analysis_search
 msgid "Settled"
 msgstr "Liquidada"
+
+#. module: sale_commission
+#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement_line__settled_amount
+msgid "Settled Amount"
+msgstr ""
 
 #. module: sale_commission
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_partner_form_agent
@@ -854,8 +902,6 @@ msgstr "Análisis de liquidaciones"
 
 #. module: sale_commission
 #: model:ir.model.fields,field_description:sale_commission.field_sale_commission_settlement__line_ids
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_form
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_line_tree
 msgid "Settlement lines"
 msgstr "Líneas de liquidación"
 
@@ -890,7 +936,6 @@ msgstr ""
 #: model:ir.ui.menu,name:sale_commission.menu_settle_commissions
 #: model_terms:ir.ui.view,arch_db:sale_commission.sale_commission_make_invoice_form
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_partner_form_agent
-#: model_terms:ir.ui.view,arch_db:sale_commission.view_settlement_tree
 msgid "Settlements"
 msgstr "Liquidaciones"
 
@@ -978,11 +1023,6 @@ msgid "Unit of Measure"
 msgstr "Unidad de Medida"
 
 #. module: sale_commission
-#: model:ir.model.fields,field_description:sale_commission.field_sale_commission_make_settle__date_to
-msgid "Up to"
-msgstr "Hasta"
-
-#. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_make_invoice
 msgid "Wizard for making an invoice from a settlement"
 msgstr "Asistente para realizar facturas desde la liquidaciones"
@@ -1027,6 +1067,18 @@ msgstr "_Cancelar"
 #: model_terms:ir.ui.view,arch_db:sale_commission.view_settled_wizard
 msgid "or"
 msgstr "o"
+
+#~ msgid "Gross Amount"
+#~ msgstr "Importe Bruto"
+
+#~ msgid "Net Amount"
+#~ msgstr "Importe Neto"
+
+#~ msgid "Invoice line agents and commissions"
+#~ msgstr "Agentes y comisiones de línea de factura"
+
+#~ msgid "Up to"
+#~ msgstr "Hasta"
 
 #~ msgid "Settlement that generates this invoice"
 #~ msgstr "Liquidación origen de esta factura"

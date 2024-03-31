@@ -12,13 +12,7 @@
         />
         <field name="arch" type="xml">
             <tree position="replace">
-                <tree
-                    string="Agents"
-                    create="false"
-                    edit="false"
-                    delete="false"
-                    editable="bottom"
-                >
+                <tree create="false" edit="false" delete="false" editable="bottom">
                     <field
                         name="agent_id"
                         context="{'default_agent': True, 'default_customer': False, 'default_supplier': True}"
@@ -50,20 +44,6 @@
             <button name="recompute_lines_agents" position="attributes">
                 <attribute name="groups">sales_team.group_sale_manager</attribute>
             </button>
-        </field>
-    </record>
-
-    <record id="view_order_form_partner_domain_inherit" model="ir.ui.view">
-        <field name="name">sale.agent.order.inherit.form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
-        <field name="arch" type="xml">
-            <field name="partner_id" position="after">
-                <field name="partner_id_domain" invisible="1" />
-            </field>
-            <field name="partner_id" position="attributes">
-                <attribute name="domain">partner_id_domain</attribute>
-            </field>
         </field>
     </record>
 
