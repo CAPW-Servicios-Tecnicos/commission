@@ -53,11 +53,13 @@ class TestAccountCommission(TestCommissionBase):
             limit=1,
         )
 
-    def _create_invoice(self, agent, commission, date=None):
+    def _create_invoice(self, agent, commission, date=None, currency=None):
         invoice_form = Form(
             self.env["account.move"].with_context(default_move_type="out_invoice")
         )
         invoice_form.partner_id = self.partner
+        if currency:
+            invoice_form.currency_id = currency
         with invoice_form.invoice_line_ids.new() as line_form:
             line_form.product_id = self.product
         if date:
@@ -419,3 +421,222 @@ class TestAccountCommission(TestCommissionBase):
         settlements.make_invoices(self.journal, self.commission_product, grouped=True)
         invoices = settlements.mapped("invoice_id")
         self.assertEqual(2, invoices.settlement_count)
+
+    def test_unlink_settlement_invoice(self):
+        settlements = self._create_multi_settlements()
+        invoices = settlements.make_invoices(self.journal, self.commission_product)
+        self.assertTrue(
+            all(state == "invoiced" for state in settlements.mapped("state"))
+        )
+        invoices.unlink()
+        self.assertTrue(
+            all(state == "settled" for state in settlements.mapped("state"))
+        )
+
+    def test_multi_currency(self):
+        commission = self.commission_net_invoice
+        agent = self.agent_monthly
+        today = fields.Date.today()
+        last_month = today + relativedelta(months=-1)
+
+        # creating invoices with different currencies, same date
+        invoice = self._create_invoice(agent, commission, today, currency=None)
+        invoice.action_post()
+        invoice1 = self._create_invoice(agent, commission, today, self.foreign_currency)
+        invoice1.action_post()
+
+        # check settlement creation
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search(
+            [
+                ("agent_id", "=", agent.id),
+                ("state", "=", "settled"),
+            ]
+        )
+        self.assertEqual(2, len(settlements))
+        self.assertEqual(2, len(settlements.mapped("currency_id")))
+
+        # creating some additional invoices
+        invoice2 = self._create_invoice(agent, commission, today, self.foreign_currency)
+        invoice2.action_post()
+        invoice3 = self._create_invoice(
+            agent, commission, last_month, self.foreign_currency
+        )
+        invoice3.action_post()
+        invoice4 = self._create_invoice(
+            agent, commission, last_month, self.foreign_currency
+        )
+        invoice4.action_post()
+
+        # check settlement creation
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search(
+            [
+                ("agent_id", "=", agent.id),
+                ("state", "=", "settled"),
+            ]
+        )
+        self.assertEqual(3, len(settlements))
+
+        # check commission invoices
+        settlements.make_invoices(self.journal, self.commission_product)
+        invoices = settlements.mapped("invoice_id")
+        self.assertEqual(3, len(invoices))
+
+        # check settlement creation after a commission invoicing process
+        # (previous settlements were already invoiced)
+        invoice5 = self._create_invoice(agent, commission, today)
+        invoice5.action_post()
+        invoice6 = self._create_invoice(agent, commission, today, self.foreign_currency)
+        invoice6.action_post()
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search(
+            [
+                ("agent_id", "=", agent.id),
+                ("state", "=", "settled"),
+            ]
+        )
+        self.assertEqual(2, len(settlements))
+
+    def test_invoice_parcial_refund(self):
+        commission = self.commission_net_paid
+        agent = self.agent_monthly
+        today = fields.Date.today()
+        # Create an invoice
+        invoice = self._create_invoice(agent, commission, today, currency=None)
+        invoice.action_post()
+        # Register payment for invoice
+        payment_journal = self.env["account.journal"].search(
+            [("type", "=", "cash"), ("company_id", "=", invoice.company_id.id)],
+            limit=1,
+        )
+        register_payments = (
+            self.env["account.payment.register"]
+            .with_context(active_ids=invoice.id, active_model="account.move")
+            .create({"journal_id": payment_journal.id})
+        )
+        register_payments.action_create_payments()
+        # Make a parcial refund for the invoice
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.id)
+            .create(
+                {
+                    "reason": "no reason",
+                    "refund_method": "refund",
+                    "journal_id": invoice.journal_id.id,
+                }
+            )
+        )
+        refund = self.env["account.move"].browse(
+            move_reversal.reverse_moves()["res_id"]
+        )
+        refund.write(
+            {
+                "invoice_line_ids": [
+                    (
+                        1,
+                        refund.invoice_line_ids[:1].id,
+                        {"price_unit": refund.invoice_line_ids[:1].price_unit - 2},
+                    )
+                ]
+            }
+        )
+        refund.action_post()
+        # Register payment for the refund
+        register_payments = (
+            self.env["account.payment.register"]
+            .with_context(active_ids=refund.id, active_model="account.move")
+            .create({"journal_id": payment_journal.id})
+        )
+        register_payments.action_create_payments()
+        # check settlement creation. The commission must be (5 - 3) * 0.1 = 0.4
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search([("agent_id", "=", agent.id)])
+        self.assertEqual(2, len(settlements.line_ids))
+        self.assertEqual(0.4, sum(settlements.mapped("total")))
+
+    def test_invoice_full_refund(self):
+        commission = self.commission_net_paid
+        agent = self.agent_monthly
+        today = fields.Date.today()
+        # Create an invoice and refund it
+        invoice = self._create_invoice(agent, commission, today, currency=None)
+        invoice.action_post()
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.id)
+            .create(
+                {
+                    "reason": "no reason",
+                    "refund_method": "cancel",
+                    "journal_id": invoice.journal_id.id,
+                }
+            )
+        )
+        move_reversal.reverse_moves()
+        # check settlement creation. The commission must be: (5 - 5) * 0.1 = 0
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search(
+            [
+                ("agent_id", "=", agent.id),
+            ]
+        )
+        self.assertEqual(2, len(settlements.line_ids))
+        self.assertEqual(0, sum(settlements.mapped("total")))
+
+    def test_invoice_modify_refund(self):
+        commission = self.commission_net_paid
+        agent = self.agent_monthly
+        today = fields.Date.today()
+        # Create an invoice
+        invoice = self._create_invoice(agent, commission, today, currency=None)
+        invoice.action_post()
+        # Create a full refund and a new invoice
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.id)
+            .create(
+                {
+                    "reason": "no reason",
+                    "refund_method": "modify",
+                    "journal_id": invoice.journal_id.id,
+                }
+            )
+        )
+        invoice2 = self.env["account.move"].browse(
+            move_reversal.reverse_moves()["res_id"]
+        )
+        invoice2.write(
+            {
+                "invoice_line_ids": [
+                    (
+                        1,
+                        invoice2.invoice_line_ids[:1].id,
+                        {"price_unit": invoice2.invoice_line_ids[:1].price_unit - 2},
+                    )
+                ]
+            }
+        )
+        invoice2.action_post()
+        # Register payment for the new invoice
+        payment_journal = self.env["account.journal"].search(
+            [("type", "=", "cash"), ("company_id", "=", invoice.company_id.id)],
+            limit=1,
+        )
+        register_payments = (
+            self.env["account.payment.register"]
+            .with_context(active_ids=invoice2.id, active_model="account.move")
+            .create({"journal_id": payment_journal.id})
+        )
+        register_payments.action_create_payments()
+
+        # check settlement creation. The commission must be (5 - 5 + 3) * 0.1 = 0.6
+        self._settle_agent_invoice(agent, 1)
+        settlements = self.settle_model.search(
+            [
+                ("agent_id", "=", agent.id),
+            ]
+        )
+        self.assertEqual(3, len(settlements.line_ids))
+        self.assertAlmostEqual(0.6, sum(settlements.mapped("total")), 2)
