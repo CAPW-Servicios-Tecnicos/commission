@@ -71,6 +71,7 @@
                 <button
                     name="button_edit_agents"
                     icon="fa-users"
+                    groups="commission.group_commission_manager"
                     attrs="{'invisible': [
                         '|',
                         ('commission_free', '=', True),
@@ -83,6 +84,7 @@
                 />
                 <field
                     name="commission_status"
+                    groups="commission.group_commission_manager"
                     attrs="{'column_invisible': [
                         ('parent.move_type', 'not in', ['out_invoice', 'out_refund'])
                     ]}"
@@ -93,6 +95,7 @@
                     name="recompute_lines_agents"
                     type="object"
                     string="Regenerate agents"
+                    groups="commission.group_commission_manager"
                     attrs="{'invisible': [
                         '|',
                         ('move_type', 'not in', ['out_invoice', 'out_refund']),
@@ -115,6 +118,7 @@
                     name="commission_total"
                     widget="monetary"
                     options="{'currency_field': 'currency_id'}"
+                    groups="commission.group_commission_manager"
                     attrs="{'invisible': [
                         ('move_type', 'not in', ['out_invoice', 'out_refund'])
                     ]}"
