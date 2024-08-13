@@ -83,6 +83,7 @@ class CommissionSettlement(models.Model):
             "partner_id": partner.id,
             "journal_id": journal.id,
             "invoice_line_ids": [],
+            "currency_id": self.currency_id.id,
         }
         if date:
             vals.update({"invoice_date": date})
@@ -107,13 +108,12 @@ class CommissionSettlement(models.Model):
                         "product_id": product.id,
                         "quantity": -1 if settlement.total < 0 else 1,
                         "price_unit": abs(settlement.total),
-                        "name": (
-                            "\n"
-                            + _(
-                                "Period: from %(date_from)s to %(date_to)s",
-                                date_from=date_from.strftime(lang.date_format),
-                                date_to=date_to.strftime(lang.date_format),
-                            ),
+                        "name": product.with_context(lang=lang.code).display_name
+                        + "\n"
+                        + _(
+                            "Period: from %(date_from)s to %(date_to)s",
+                            date_from=date_from.strftime(lang.date_format),
+                            date_to=date_to.strftime(lang.date_format),
                         ),
                         # todo or compute agent currency_id?
                         "currency_id": settlement.currency_id.id,
@@ -124,7 +124,7 @@ class CommissionSettlement(models.Model):
         return vals
 
     def _get_invoice_grouping_keys(self):
-        return ["company_id", "agent_id"]
+        return ["company_id", "currency_id", "agent_id"]
 
     def make_invoices(self, journal, product, date=False, grouped=False):
         invoice_vals_list = []
@@ -163,7 +163,9 @@ class CommissionSettlement(models.Model):
 class SettlementLine(models.Model):
     _inherit = "commission.settlement.line"
 
-    invoice_agent_line_id = fields.Many2one(comodel_name="account.invoice.line.agent")
+    invoice_agent_line_id = fields.Many2one(
+        comodel_name="account.invoice.line.agent", index=True
+    )
     invoice_line_id = fields.Many2one(
         comodel_name="account.move.line",
         store=True,

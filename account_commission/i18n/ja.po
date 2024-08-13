@@ -27,6 +27,11 @@ msgid "(keep empty for invoicing all the pending settlements)"
 msgstr "(全ての未清算分の請求書を作成するためには空欄にしてください）"
 
 #. module: account_commission
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
+msgid "<strong>Settlement invoice:</strong>"
+msgstr ""
+
+#. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_account_invoice_line_agent__agent_id
 #: model:ir.model.fields,field_description:account_commission.field_invoice_commission_analysis_report__agent_id
 #: model_terms:ir.ui.view,arch_db:account_commission.view_invoice_commission_analysis_search
@@ -57,6 +62,7 @@ msgstr "請求書明細に関連するエージェント/コミッション。"
 
 #. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_invoice_commission_analysis_report__amount
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
 msgid "Amount"
 msgstr "金額"
 
@@ -69,6 +75,11 @@ msgstr "精算有"
 #: model:ir.model.fields,field_description:account_commission.field_invoice_commission_analysis_report__balance
 msgid "Balance"
 msgstr "残高"
+
+#. module: account_commission
+#: model_terms:ir.ui.view,arch_db:account_commission.commission_make_invoice_form
+msgid "Cancel"
+msgstr "キャンセル"
 
 #. module: account_commission
 #. odoo-python
@@ -165,6 +176,7 @@ msgid "Currency"
 msgstr "通貨"
 
 #. module: account_commission
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
 #: model_terms:ir.ui.view,arch_db:account_commission.view_invoice_commission_analysis_search
 msgid "Customer"
 msgstr "顧客"
@@ -173,6 +185,11 @@ msgstr "顧客"
 #: model:ir.model.fields,field_description:account_commission.field_commission_make_invoice__date
 msgid "Date"
 msgstr "日付"
+
+#. module: account_commission
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
+msgid "Description"
+msgstr ""
 
 #. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_account_invoice_line_agent__display_name
@@ -230,7 +247,7 @@ msgstr "ID"
 
 #. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_account_invoice_line_agent__invoice_id
-#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
 msgid "Invoice"
 msgstr "請求書"
 
@@ -272,7 +289,6 @@ msgstr "請求書ステータス"
 
 #. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_account_invoice_line_agent__invoice_date
-#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement
 msgid "Invoice date"
 msgstr "請求日"
 
@@ -280,11 +296,6 @@ msgstr "請求日"
 #: model:ir.model.fields.selection,name:account_commission.selection__commission_settlement__state__except_invoice
 msgid "Invoice exception"
 msgstr "請求書例外"
-
-#. module: account_commission
-#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement
-msgid "Invoice line"
-msgstr "請求書明細"
 
 #. module: account_commission
 #: model:ir.model.fields.selection,name:account_commission.selection__commission_settlement__state__invoiced
@@ -406,6 +417,11 @@ msgid "Product for invoicing"
 msgstr "請求用プロダクト"
 
 #. module: account_commission
+#: model_terms:ir.ui.view,arch_db:account_commission.report_settlement_document
+msgid "Quantity"
+msgstr ""
+
+#. module: account_commission
 #: model_terms:ir.ui.view,arch_db:account_commission.view_move_form
 msgid "Regenerate agents"
 msgstr "エージェント再取込"
@@ -420,6 +436,15 @@ msgstr "ドラフトに再設定"
 #: model:ir.model.fields.selection,name:account_commission.selection__commission_settlement__settlement_type__sale_invoice
 msgid "Sales Invoices"
 msgstr "販売請求書"
+
+#. module: account_commission
+#: model:ir.model.fields,help:account_commission.field_commission__invoice_state
+msgid ""
+"Select the invoice status for settling the commissions:\n"
+"* 'Invoice Based': Commissions are settled when the invoice is issued.\n"
+"* 'Payment Based': Commissions are settled when the invoice is paid (or "
+"refunded)."
+msgstr ""
 
 #. module: account_commission
 #: model:ir.model.fields,field_description:account_commission.field_account_invoice_line_agent__settled
@@ -555,11 +580,6 @@ msgid "You can't modify a settled line"
 msgstr "精算済明細を修正することはできません"
 
 #. module: account_commission
-#: model_terms:ir.ui.view,arch_db:account_commission.commission_make_invoice_form
-msgid "_Cancel"
-msgstr "_キャンセル"
-
-#. module: account_commission
 #: model_terms:ir.ui.view,arch_db:account_commission.view_invoice_commission_analysis_graph
 #: model_terms:ir.ui.view,arch_db:account_commission.view_invoice_commission_analysis_pivot
 msgid "invoice Commission Analysis"
@@ -569,6 +589,9 @@ msgstr "コミッション請求分析"
 #: model_terms:ir.ui.view,arch_db:account_commission.view_invoice_commission_analysis_search
 msgid "invoices Commission Analysis"
 msgstr "コミッション請求分析"
+
+#~ msgid "Invoice line"
+#~ msgstr "請求書明細"
 
 #~ msgid "The move of this entry line."
 #~ msgstr "この明細の仕訳"

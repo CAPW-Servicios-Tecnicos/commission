@@ -114,6 +114,13 @@ class AccountMove(models.Model):
                 res["arch"] = etree.tostring(invoice_xml)
         return res
 
+    def unlink(self):
+        """Put 'invoiced' settlements associated to the invoices back in settled state."""
+        self.invoice_line_ids.settlement_id.filtered(
+            lambda s: s.state == "invoiced"
+        ).write({"state": "settled"})
+        return super().unlink()
+
 
 class AccountMoveLine(models.Model):
     _inherit = [
@@ -138,16 +145,6 @@ class AccountMoveLine(models.Model):
 
     @api.depends("move_id.partner_id")
     def _compute_agent_ids(self):
-        for res in self:
-            settlement_lines = self.env["commission.settlement.line"].search(
-                [("invoice_line_id", "=", res.id)]
-            )
-            for line in settlement_lines:
-                line.date = False
-                line.agent_id = False
-                line.settled_amount = 0.00
-                line.currency_id = False
-                line.commission_id = False
         self.agent_ids = False  # for resetting previous agents
         for record in self:
             if (
@@ -201,12 +198,11 @@ class AccountInvoiceLineAgent(models.Model):
     )
     currency_id = fields.Many2one(
         related="object_id.currency_id",
-        readonly=True,
     )
 
     @api.depends(
         "object_id.price_subtotal",
-        "object_id.product_id.commission_free",
+        "object_id.commission_free",
         "commission_id",
     )
     def _compute_amount(self):
@@ -257,5 +253,5 @@ class AccountInvoiceLineAgent(models.Model):
         self.ensure_one()
         return (
             self.commission_id.invoice_state == "paid"
-            and self.invoice_id.payment_state not in ["in_payment", "paid"]
+            and self.invoice_id.payment_state not in ["in_payment", "paid", "reversed"]
         ) or self.invoice_id.state != "posted"
